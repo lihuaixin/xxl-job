@@ -1,0 +1,110 @@
+##### 本地环境
+
+#当前服务的备注信息
+info:
+  name:  淘车微服务模板
+  contact: taoche
+
+#指定当前服务访问端口
+server:
+  port: 8081
+  servlet:
+    context-path: /taoche-job-executor
+
+#jasypt加解密时使用
+#jasypt:
+#  encryptor:
+#    password: 9FET6pBiQo7h2nUA6SAccrak9GB0/Nuwomw4u5Un56llsI3C1JiezTjhkPQk
+
+#申明当前应用名称
+spring:
+  application:
+    name: taoche-job-executor
+  #连接springcloud config配置中心
+  cloud:
+      nacos:
+        config:
+          server-addr: http://192.168.111.60:8848
+          file-extension: yml
+          shared-configs: taoche-local.yml
+
+        discovery:
+          server-addr: http://192.168.111.60:8848
+
+
+#终端 配置
+management:
+  endpoints:
+    web:
+      exposure:
+        #暴露actuator中的某些接口， refresh 刷新config配置信息
+        include: '*'
+
+  # 启用shutdown,优雅的关闭服务，默认是false
+  endpoint:
+    shutdown:
+      enabled: true
+
+
+
+#开启feign的hystrix功能，否则将不会进入feign的fallback方法
+feign:
+  hystrix:
+    enabled: true
+
+
+### 特别注意
+### ribbon和hystrix的超时时间设置，不要因为系统接口的性能过差而懒惰，搞成几秒甚至几十秒的超时，一般超时定义在1秒以内，是比较通用以及合理的
+### hystrix的熔断时间一定要大于ribbon超时时间
+##设置hystrix超时时间(毫秒),设置调用者等待命令执行的超时限制，超过此时间，HystrixCommand被标记为TIMEOUT，并执行回退逻辑,默认1s
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1000
+
+## 网关暂未配置feign，所以这段不生效。配置ribbon的参数，其他参数见类：CommonClientConfigKey
+ribbon:
+  # Connect timeout used by Apache HttpClient
+  ConnectTimeout: 1000
+  # Read timeout used by Apache HttpClient
+  ReadTime: 1000
+  OkToRetryOnAllOperations: true
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+
+
+
+#配置mybatis相关文件位置
+mybatis-plus:
+  mapper-locations: classpath*:mybatis-mapper/*Mapper.xml
+  config-location: classpath:mybatis-config.xml
+  type-aliases-package: com.taoche.dao.domain
+
+
+#log配置
+logging:
+  config: classpath:logback.xml
+  path: /home/taoche/taoche-job-executor/
+  level:
+    com.taoche: DEBUG
+    com.ibatis: DEBUG
+
+xxl:
+  job:
+    admin:
+      ### xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
+      addresses: http://127.0.0.1:8080/xxl-job-admin
+    ### xxl-job, access token
+    accessToken:
+    ### xxl-job executor address
+    executor:
+      appname: xxl-job-executor
+      ip: 172.21.17.198
+      port: 9999
+      ### xxl-job log path
+      logpath: /home/taoche/taoche-job-executor/jobhandler
+      ### xxl-job log retention days
+      logretentiondays: 30

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxl.job.executor.dao.mapper.AppSysResourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xxl.job.executor.dao.domain.AppSysResource">
+        <result column="id" property="id"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="type" property="type"/>
+        <result column="q_key" property="qKey"/>
+        <result column="q_describe" property="qDescribe"/>
+        <result column="value" property="value"/>
+        <result column="value1" property="value1"/>
+        <result column="value2" property="value2"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modify" property="gmtModify"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        is_delete,
+        type, q_key, q_describe, value, value1, value2, gmt_create, gmt_modify
+    </sql>
+
+    <!-- 通用分页查询，默认根据实体生成查询条件，如若已更换为指定查询对象，请修改相应的判断条件
+    时间字段默认生成开始时间和结束时间，且不启用，如果要启用，需要自定义查询对象，然后解注释这里的查询条件
+    -->
+    <select id="pageQuery" resultType="com.xxl.job.executor.dao.domain.AppSysResource">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM app_sys_resource
+        <where>
+            <if test="query.type != null and query.type != ''">
+                AND type = #{query.type}
+            </if>
+            <if test="query.qKey != null and query.qKey != ''">
+                AND q_key = #{query.qKey}
+            </if>
+            <if test="query.qDescribe != null and query.qDescribe != ''">
+                AND q_describe = #{query.qDescribe}
+            </if>
+            <if test="query.value != null and query.value != ''">
+                AND value = #{query.value}
+            </if>
+            <if test="query.value1 != null and query.value1 != ''">
+                AND value1 = #{query.value1}
+            </if>
+            <if test="query.value2 != null and query.value2 != ''">
+                AND value2 = #{query.value2}
+            </if>
+            <!--
+            <if test="query.gmtCreateBegin != null">
+                AND gmt_create >= #{query.gmtCreateBegin}
+            </if>
+            <if test="query.gmtCreateEnd != null">
+                AND gmt_create <![CDATA[ < ]]> DATE_ADD(#{query.gmtCreateEnd} ,INTERVAL 1 DAY)
+            </if>
+            -->
+            <!--
+            <if test="query.gmtModifyBegin != null">
+                AND gmt_modify >= #{query.gmtModifyBegin}
+            </if>
+            <if test="query.gmtModifyEnd != null">
+                AND gmt_modify <![CDATA[ < ]]> DATE_ADD(#{query.gmtModifyEnd} ,INTERVAL 1 DAY)
+            </if>
+            -->
+            AND is_delete = 0
+        </where>
+        ORDER BY id DESC
+    </select>
+</mapper>

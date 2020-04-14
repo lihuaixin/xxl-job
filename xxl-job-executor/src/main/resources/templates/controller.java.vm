@@ -1,0 +1,134 @@
+package ${package.Controller};
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import ${package.Entity}.${table.entityName};
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+#if(${cfg.BaseClassPackage})
+import ${cfg.BaseClassPackage}.PageQueryWrapper;
+#else
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+#end
+
+#if(${restControllerStyle})
+import org.springframework.web.bind.annotation.RestController;
+#else
+import org.springframework.stereotype.Controller;
+#end
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+import ${package.Service}.${table.serviceName};
+import ${cfg.BaseClassPackage}.BaseResponse;
+import java.util.List;
+/**
+ * <p>
+ * $!{table.comment} 前端控制器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${restControllerStyle})
+@RestController
+#else
+@Controller
+#end
+@RequestMapping("/open#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+#if(${kotlin})
+class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+
+#else
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} {
+#end
+
+    @Autowired
+    private ${table.serviceName} ${table.entityPath}Service;
+
+
+    /**
+     * 保存或新增
+     *
+     * @param ${table.entityPath}
+     * @return
+     */
+    @PostMapping("/saveOrUpdate")
+    public BaseResponse saveOrUpdate(@RequestBody ${table.entityName} ${table.entityPath}) throws Exception {
+        if (${table.entityPath}Service.saveOrUpdate(${table.entityPath})) {
+            return BaseResponse.success(${table.entityPath});
+        }
+        return BaseResponse.fail("");
+    }
+#if(${cfg.BaseClassPackage})
+    /**
+     * 分页查询
+     *
+     * @param query 默认使用实体作为查询参数，可根据业务需要替换为查询对象，如若替换为查询对象，请修改相应mapper文件的sql查询
+     * @return 分页结果集
+     */
+    @PostMapping("/list")
+    public BaseResponse list(@RequestBody PageQueryWrapper<${table.entityName}> query) {
+
+        query.setQueryClazz(${table.entityName}.class);
+        Page pageList = (Page) ${table.entityPath}Service.pageQuery(query);
+
+        return BaseResponse.success(pageList);
+    }
+#else
+    /**
+     * 分页查询
+     *
+     * @return 分页结果集
+     */
+    @PostMapping("/list")
+    public BaseResponse list(@RequestBody ${table.entityName} entity, Page<${table.entityName}> page) {
+
+        IPage pageList = ${table.entityPath}Service.page(page, new QueryWrapper<>(entity));
+
+        return BaseResponse.success(pageList);
+    }
+
+    /**
+    * 分页查询
+    *
+    * @return 分页结果集
+    */
+    @PostMapping("/list")
+    public BaseResponse list(@RequestBody ${table.entityName} entity, Page<${table.entityName}> page) {
+        IPage pageList = ${table.entityPath}Service.page(page, new QueryWrapper<>(entity));
+        return BaseResponse.success(pageList);
+    }
+#end
+    /**
+     * 批量删除
+     *
+     * @param idList
+     * @return
+     */
+    @PostMapping("/remove")
+    public BaseResponse remove(@RequestBody List<Long> idList) throws Exception {
+        if (${table.entityPath}Service.removeByIds(idList)) {
+            return BaseResponse.success(idList);
+        }
+        return BaseResponse.fail("");
+    }
+
+    /**
+     * 单条记录查询
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/get/{id}")
+    public BaseResponse getById(@PathVariable Long id) {
+        ${table.entityName} ${table.entityPath} = ${table.entityPath}Service.getById(id);
+        return BaseResponse.success(${table.entityPath});
+    }
+}
+
+#end

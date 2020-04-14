@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxl.job.executor.dao.mapper.AppBorrowMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xxl.job.executor.dao.domain.AppBorrow">
+        <result column="id" property="id"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+        <result column="user_id" property="userId"/>
+        <result column="open_id" property="openId"/>
+        <result column="product_id" property="productId"/>
+        <result column="borrow_no" property="borrowNo"/>
+        <result column="risk_no" property="riskNo"/>
+        <result column="amount" property="amount"/>
+        <result column="arrival_amount" property="arrivalAmount"/>
+        <result column="is_period" property="isPeriod"/>
+        <result column="total_period" property="totalPeriod"/>
+        <result column="status" property="status"/>
+        <result column="review_status" property="reviewStatus"/>
+        <result column="trade_no_out" property="tradeNoOut"/>
+        <result column="card_no" property="cardNo"/>
+        <result column="card_name" property="cardName"/>
+        <result column="gmt_audit" property="gmtAudit"/>
+        <result column="gmt_arrival" property="gmtArrival"/>
+        <result column="gmt_close" property="gmtClose"/>
+        <result column="gmt_finish" property="gmtFinish"/>
+        <result column="borrow_remark" property="borrowRemark"/>
+        <result column="repayment_method" property="repaymentMethod"/>
+        <result column="repay_remark" property="repayRemark"/>
+        <result column="interest_rate" property="interestRate"/>
+        <result column="service_rate" property="serviceRate"/>
+        <result column="overdue_rate" property="overdueRate"/>
+        <result column="total_interest_fee" property="totalInterestFee"/>
+        <result column="total_service_fee" property="totalServiceFee"/>
+        <result column="total_overdue_fee" property="totalOverdueFee"/>
+        <result column="overdue_status" property="overdueStatus"/>
+        <result column="total_overdue_days" property="totalOverdueDays"/>
+        <result column="ip" property="ip"/>
+        <result column="latitude" property="latitude"/>
+        <result column="longitude" property="longitude"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="county" property="county"/>
+        <result column="address" property="address"/>
+        <result column="reason" property="reason"/>
+        <result column="protocol_url" property="protocolUrl"/>
+        <result column="cost_remark" property="costRemark"/>
+        <result column="closed_status" property="closedStatus"/>
+        <result column="gmt_third" property="gmtThird"/>
+        <result column="term" property="term"/>
+        <result column="unit" property="unit"/>
+        <result column="usage_detail" property="usageDetail"/>
+        <result column="banning_period" property="banningPeriod"/>
+        <result column="device_id" property="deviceId"/>
+        <result column="ups_pay_channel" property="upsPayChannel"/>
+        <result column="work_city" property="workCity"/>
+        <result column="work_company" property="workCompany"/>
+        <result column="work_address" property="workAddress"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        is_delete,
+        gmt_create, gmt_modified, user_id, open_id, product_id, borrow_no, risk_no, amount, arrival_amount, is_period, total_period, status, review_status, trade_no_out, card_no, card_name, gmt_audit, gmt_arrival, gmt_close, gmt_finish, borrow_remark, repayment_method, repay_remark, interest_rate, service_rate, overdue_rate, total_interest_fee, total_service_fee, total_overdue_fee, overdue_status, total_overdue_days, ip, latitude, longitude, province, city, county, address, reason, protocol_url, cost_remark, closed_status, gmt_third, term, unit, usage_detail, banning_period, device_id, ups_pay_channel, work_city, work_company, work_address
+    </sql>
+
+    <!-- 通用分页查询，默认根据实体生成查询条件，如若已更换为指定查询对象，请修改相应的判断条件
+    时间字段默认生成开始时间和结束时间，且不启用，如果要启用，需要自定义查询对象，然后解注释这里的查询条件
+    -->
+    <select id="pageQuery" resultType="com.xxl.job.executor.dao.domain.AppBorrow">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM app_borrow
+        <where>
+            <!--
+            <if test="query.gmtCreateBegin != null">
+                AND gmt_create >= #{query.gmtCreateBegin}
+            </if>
+            <if test="query.gmtCreateEnd != null">
+                AND gmt_create <![CDATA[ < ]]> DATE_ADD(#{query.gmtCreateEnd} ,INTERVAL 1 DAY)
+            </if>
+            -->
+            <!--
+            <if test="query.gmtModifiedBegin != null">
+                AND gmt_modified >= #{query.gmtModifiedBegin}
+            </if>
+            <if test="query.gmtModifiedEnd != null">
+                AND gmt_modified <![CDATA[ < ]]> DATE_ADD(#{query.gmtModifiedEnd} ,INTERVAL 1 DAY)
+            </if>
+            -->
+            <if test="query.userId != null and query.userId != ''">
+                AND user_id = #{query.userId}
+            </if>
+            <if test="query.openId != null and query.openId != ''">
+                AND open_id = #{query.openId}
+            </if>
+            <if test="query.productId != null and query.productId != ''">
+                AND product_id = #{query.productId}
+            </if>
+            <if test="query.borrowNo != null and query.borrowNo != ''">
+                AND borrow_no = #{query.borrowNo}
+            </if>
+            <if test="query.riskNo != null and query.riskNo != ''">
+                AND risk_no = #{query.riskNo}
+            </if>
+            <if test="query.amount != null and query.amount != ''">
+                AND amount = #{query.amount}
+            </if>
+            <if test="query.arrivalAmount != null and query.arrivalAmount != ''">
+                AND arrival_amount = #{query.arrivalAmount}
+            </if>
+            <if test="query.isPeriod != null and query.isPeriod != ''">
+                AND is_period = #{query.isPeriod}
+            </if>
+            <if test="query.totalPeriod != null and query.totalPeriod != ''">
+                AND total_period = #{query.totalPeriod}
+            </if>
+            <if test="query.status != null and query.status != ''">
+                AND status = #{query.status}
+            </if>
+            <if test="query.reviewStatus != null and query.reviewStatus != ''">
+                AND review_status = #{query.reviewStatus}
+            </if>
+            <if test="query.tradeNoOut != null and query.tradeNoOut != ''">
+                AND trade_no_out = #{query.tradeNoOut}
+            </if>
+            <if test="query.cardNo != null and query.cardNo != ''">
+                AND card_no = #{query.cardNo}
+            </if>
+            <if test="query.cardName != null and query.cardName != ''">
+                AND card_name = #{query.cardName}
+            </if>
+            <!--
+            <if test="query.gmtAuditBegin != null">
+                AND gmt_audit >= #{query.gmtAuditBegin}
+            </if>
+            <if test="query.gmtAuditEnd != null">
+                AND gmt_audit <![CDATA[ < ]]> DATE_ADD(#{query.gmtAuditEnd} ,INTERVAL 1 DAY)
+            </if>
+            -->
+            <!--
+            <if test="query.gmtArrivalBegin != null">
+                AND gmt_arrival >= #{query.gmtArrivalBegin}
+            </if>
+            <if test="query.gmtArrivalEnd != null">
+                AND gmt_arrival <![CDATA[ < ]]> DATE_ADD(#{query.gmtArrivalEnd} ,INTERVAL 1 DAY)
+            </if>
+            -->
+            <!--
+            <if test="query.gmtCloseBegin != null">
+                AND gmt_close >= #{query.gmtCloseBegin}
+            </if>
+            <if test="query.gmtCloseEnd != null">
+                AND gmt_close <![CDATA[ < ]]> DATE_ADD(#{query.gmtCloseEnd} ,INTERVAL 1 DAY)
+            </if>
+            -->
+            <!--
+            <if test="query.gmtFinishBegin != null">
+                AND gmt_finish >= #{query.gmtFinishBegin}
+            </if>
+            <if test="query.gmtFinishEnd != null">
+                AND gmt_finish <![CDATA[ < ]]> DATE_ADD(#{query.gmtFinishEnd} ,INTERVAL 1 DAY)
+            </if>
+            -->
+            <if test="query.borrowRemark != null and query.borrowRemark != ''">
+                AND borrow_remark = #{query.borrowRemark}
+            </if>
+            <if test="query.repaymentMethod != null and query.repaymentMethod != ''">
+                AND repayment_method = #{query.repaymentMethod}
+            </if>
+            <if test="query.repayRemark != null and query.repayRemark != ''">
+                AND repay_remark = #{query.repayRemark}
+            </if>
+            <if test="query.interestRate != null and query.interestRate != ''">
+                AND interest_rate = #{query.interestRate}
+            </if>
+            <if test="query.serviceRate != null and query.serviceRate != ''">
+                AND service_rate = #{query.serviceRate}
+            </if>
+            <if test="query.overdueRate != null and query.overdueRate != ''">
+                AND overdue_rate = #{query.overdueRate}
+            </if>
+            <if test="query.totalInterestFee != null and query.totalInterestFee != ''">
+                AND total_interest_fee = #{query.totalInterestFee}
+            </if>
+            <if test="query.totalServiceFee != null and query.totalServiceFee != ''">
+                AND total_service_fee = #{query.totalServiceFee}
+            </if>
+            <if test="query.totalOverdueFee != null and query.totalOverdueFee != ''">
+                AND total_overdue_fee = #{query.totalOverdueFee}
+            </if>
+            <if test="query.overdueStatus != null and query.overdueStatus != ''">
+                AND overdue_status = #{query.overdueStatus}
+            </if>
+            <if test="query.totalOverdueDays != null and query.totalOverdueDays != ''">
+                AND total_overdue_days = #{query.totalOverdueDays}
+            </if>
+            <if test="query.ip != null and query.ip != ''">
+                AND ip = #{query.ip}
+            </if>
+            <if test="query.latitude != null and query.latitude != ''">
+                AND latitude = #{query.latitude}
+            </if>
+            <if test="query.longitude != null and query.longitude != ''">
+                AND longitude = #{query.longitude}
+            </if>
+            <if test="query.province != null and query.province != ''">
+                AND province = #{query.province}
+            </if>
+            <if test="query.city != null and query.city != ''">
+                AND city = #{query.city}
+            </if>
+            <if test="query.county != null and query.county != ''">
+                AND county = #{query.county}
+            </if>
+            <if test="query.address != null and query.address != ''">
+                AND address = #{query.address}
+            </if>
+            <if test="query.reason != null and query.reason != ''">
+                AND reason = #{query.reason}
+            </if>
+            <if test="query.protocolUrl != null and query.protocolUrl != ''">
+                AND protocol_url = #{query.protocolUrl}
+            </if>
+            <if test="query.costRemark != null and query.costRemark != ''">
+                AND cost_remark = #{query.costRemark}
+            </if>
+            <if test="query.closedStatus != null and query.closedStatus != ''">
+                AND closed_status = #{query.closedStatus}
+            </if>
+            <!--
+            <if test="query.gmtThirdBegin != null">
+                AND gmt_third >= #{query.gmtThirdBegin}
+            </if>
+            <if test="query.gmtThirdEnd != null">
+                AND gmt_third <![CDATA[ < ]]> DATE_ADD(#{query.gmtThirdEnd} ,INTERVAL 1 DAY)
+            </if>
+            -->
+            <if test="query.term != null and query.term != ''">
+                AND term = #{query.term}
+            </if>
+            <if test="query.unit != null and query.unit != ''">
+                AND unit = #{query.unit}
+            </if>
+            <if test="query.usageDetail != null and query.usageDetail != ''">
+                AND usage_detail = #{query.usageDetail}
+            </if>
+            <if test="query.banningPeriod != null and query.banningPeriod != ''">
+                AND banning_period = #{query.banningPeriod}
+            </if>
+            <if test="query.deviceId != null and query.deviceId != ''">
+                AND device_id = #{query.deviceId}
+            </if>
+            <if test="query.upsPayChannel != null and query.upsPayChannel != ''">
+                AND ups_pay_channel = #{query.upsPayChannel}
+            </if>
+            <if test="query.workCity != null and query.workCity != ''">
+                AND work_city = #{query.workCity}
+            </if>
+            <if test="query.workCompany != null and query.workCompany != ''">
+                AND work_company = #{query.workCompany}
+            </if>
+            <if test="query.workAddress != null and query.workAddress != ''">
+                AND work_address = #{query.workAddress}
+            </if>
+            AND is_delete = 0
+        </where>
+        ORDER BY id DESC
+    </select>
+</mapper>
